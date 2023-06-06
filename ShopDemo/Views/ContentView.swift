@@ -12,10 +12,10 @@ struct ContentView: View {
     var columns = [GridItem(.adaptive(minimum: 160), spacing: 20)]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns) {
-                    ForEach(productList, id: \.id){ product in
+                    ForEach(cartManager.filteredSweaters, id: \.id){ product in
                         ProductCard(product: product)
                             .environmentObject(cartManager)
                     }
@@ -31,6 +31,7 @@ struct ContentView: View {
                     CartButton(numberOfProduct: cartManager.products.count)
                 }
             }
+            .searchable(text: $cartManager.searchTerm, prompt: "Search Sweater")
         }
     }
 }

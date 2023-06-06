@@ -10,6 +10,7 @@ import Foundation
 class CartManager: ObservableObject{
     @Published private(set) var products: [Product] = []
     @Published private(set) var total: Int = 0
+    @Published var searchTerm = ""
     
     func addToCart(product: Product){
         products.append(product)
@@ -19,5 +20,10 @@ class CartManager: ObservableObject{
     func removeFromCart(product: Product){
         products = products.filter { $0.id != product.id}
         total -= product.price
+    }
+    
+    var filteredSweaters: [Product]{
+        guard !searchTerm.isEmpty else { return productList}
+        return productList.filter{$0.name.localizedCaseInsensitiveContains(searchTerm)}
     }
 }
